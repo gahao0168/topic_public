@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %} 寵寵欲動 - 官方網站 {% endblock %}
+{% block headmessage %} 刪除確認頁面 {% endblock %}
+{% block main %}
+    <hr>
+    <h3>是否確定刪除 "{{ function.name }}" 此項功能?</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input class="btn btn-success" type="submit" value="確定" />
+        <a class="btn btn-warning" href="{% url 'About' %}">取消</a>
+    </form>
+{% endblock %}

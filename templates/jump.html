@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %} 寵寵欲動 - 官方網站 {% endblock %}
+{% block headmessage %} 動作已完成 {% endblock %}
+{% block main %}
+    <hr>
+    <center>
+        <br>
+        {% if hints != "" %}
+            <h5><b>{{ hints }}</b></h5><br>
+        {% endif %}
+        <h5>
+            <b>{{ request.user.first_name }}</b> 成功記錄時間為：
+            {% for u in user %}
+                {% if u.feed_time1 != None %}
+                    {{ u.feed_time1 }}
+                {% else %}
+                    餵食時間1尚未設定
+                {% endif %}
+                    {% if u.feed_time2 != None %}
+                        , {{ u.feed_time2 }}
+                    {% else %}
+                        , 餵食時間2尚未設定
+                    {% endif %}
+                        {% if u.feed_time3 != None %}
+                            , {{ u.feed_time3 }}
+                        {% else %}
+                            , 餵食時間3尚未設定
+                        {% endif %}
+            {% endfor %}
+        </h5>
+        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <a class="btn btn-success" style="margin-left:15px;margin-right:15px" href="{% url 'Set' %}" role="button">返回設定頁面</a> 
+            {% if hints == "已傳送時間給裝置" %}
+                <a class="btn btn-danger" style="margin-left:15px;margin-right:15px" href="{% url 'Logout' %}" role="button">登出</a>
+            {% else %}
+                <input type="submit" name="send" class="btn btn-primary" value="送出已設定的所有時間">
+            {% endif %}
+        </form>
+    <center>
+{% endblock %}

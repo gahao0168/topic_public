@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %} 寵寵欲動 - 官方網站 {% endblock %}
+{% block headmessage %} 關於寵寵欲動 {% endblock %}
+{% block main %}
+	<hr>
+	<h3>現有功能</h3>
+	<table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>功能名稱</th>
+                <th>功能內容</th>
+                {% if request.user.is_superuser %}
+                	<th>管理</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        	{% for function in functions %}
+	            <tr>
+			        <td Width="100">{{ function.name }}</td>
+			        <td Width="200">{{ function.content }}</td>
+			        {% if request.user.is_superuser %}
+				        <td Width="50">
+						    <a href="{% url 'UpdateTF' function.id %}" class="btn btn-info">修改</a>
+						    <a href="{% url 'DeleteTF' function.id %}" class="btn btn-danger">刪除</a>
+				        </td>
+				    {% endif %}
+			    </tr>
+	        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% if request.user.is_superuser %}
+    	<h3>新增功能</h3>
+		<form action="" method="POST">
+			<table class="table table-bordered table-striped">
+				{% csrf_token %}
+				<thead class="thead-dark">
+		            <tr>
+		                <th><label>{{ form.name.label }}</label></th>
+		                <th><label>{{ form.content.label }}</label></th>
+		                <th>確認新增</th>
+		            </tr>
+		        </thead>
+				<tr>
+					<td Width="200">{{ form.name }}</td>
+					<td Width="400">{{ form.content }}</td>
+					<td Width="100"><input type="submit" class="btn btn-success" value="新增至列表"></td>
+				</tr>
+			</table>
+		</form>
+	{% endif %}
+{% endblock %}

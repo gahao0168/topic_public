@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      {% if request.user.is_authenticated %}
+        <font size="2">您好，</font><b>{{ request.user.first_name }}</b>
+      {% else %}
+        <b>** 尚未登入 **</b>
+      {% endif %}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">回首頁</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/about/">產品功能</a>
+        </li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" href="/set/">設定餵食時間</a>
+          </li>
+        {% endif %}
+        {% if request.user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              管理員區
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/admin/">管理後臺</a></li>
+              <!-- <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">從缺</a></li> -->
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+      <form class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="btn btn-lg btn-primary btn-sm" style="margin-top:5px;margin-left:15px;margin-right:15px" href="{% url 'Logout' %}" role="button">登出 &#187;</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login/" tabindex="-1">登入</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register/">註冊</a>
+            </li>
+          {% endif %}
+        </ul>
+        <!-- <input class="form-control me-2" type="search" placeholder="此功能尚未啟用" disabled="disabled" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit" disabled="disabled">Search</button> -->
+      </form>
+    </div>
+  </div>
+</nav>

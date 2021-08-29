@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} 寵寵欲動 - 官方網站 {% endblock %}
+{% block headmessage %} 登入頁面 {% endblock %}
+{% block main %}
+    <hr>
+    <h3>請輸入帳號密碼</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group col-md-2">
+            {{ form }}
+        </div>
+        <br>
+        <input class="btn btn-primary" type="submit" value="登入" /> <a class="btn btn-warning" href="{% url 'Index' %}">回首頁</a>
+        <p>還沒有帳號嗎? <a href="{% url 'Register' %}">註冊</a></p>
+    </form>
+{% endblock %}

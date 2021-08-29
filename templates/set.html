@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %} 寵寵欲動 - 官方網站 {% endblock %}
+{% block headmessage %} 設定餵食時間 {% endblock %}
+{% block main %}
+    <hr>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <br>
+        <center>
+            <h1><b>：：：現在時間：：：</b></h1>
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:240px;height:80px;"src="https://www.clocklink.com/html5embed.php?clock=043&timezone=Taiwan_Taipei&color=black&size=240&Title=&Message=&Target=&From=2021,1,1,0,0,0&Color=black"></iframe>
+            <br>
+            <input type="submit" name="now" class="btn btn-warning" value="即刻餵食(警告：按下按鈕將會投放食物)">
+            <br>
+            <<< {{ show_subcribe }} >>><br>
+            {% if pre_feedtime is not None %}
+                上次餵食時間：{{ pre_feedtime }}
+            {% endif %}
+        </center>
+        <br>
+        {% for i in loop3 %}
+            設定自動餵食時間{{ i }}：<br>
+            <select name="hours{{ i }}" style="font-size:15px">
+                {% if i == 1 %}
+                    {% if feed_time1 == "None" %}
+                        <option value=hours selected>hours</option>
+                    {% else %}
+                        <option value=hours>hours</option>
+                        <option value={{ h1 }} selected>{{ h1 }}點</option>
+                    {% endif %}
+                {% elif i == 2 %}
+                    {% if feed_time2 == "None" %}
+                        <option value=hours selected>hours</option>
+                    {% else %}
+                        <option value=hours>hours</option>
+                        <option value={{ h2 }} selected>{{ h2 }}點</option>
+                    {% endif %}
+                {% elif i == 3 %}
+                    {% if feed_time3 == "None" %}
+                        <option value=hours selected>hours</option>
+                    {% else %}
+                        <option value=hours>hours</option>
+                        <option value={{ h3 }} selected>{{ h3 }}點</option>
+                    {% endif %}
+                {% endif %}
+                {% for hour in hours %}
+                    {% if hour < 10 %}
+                        <option value={{ hour }}>0{{ hour }}點</option>
+                    {% else %}
+                        <option value={{ hour }}>{{ hour }}點</option>
+                    {% endif %}
+                }
+                {% endfor %}
+            </select>
+            <select name="minutes{{ i }}" style="font-size:15px">
+                {% if i == 1 %}
+                    {% if feed_time1 == "None" %}
+                        <option value=minutes selected>minutes</option>
+                    {% else %}
+                        <option value=minutes>minutes</option>
+                        <option value={{ m1 }} selected>{{ m1 }}分</option>
+                    {% endif %}
+                {% elif i == 2 %}
+                    {% if feed_time2 == "None" %}
+                        <option value=minutes selected>minutes</option>
+                    {% else %}
+                        <option value=minutes>minutes</option>
+                        <option value={{ m2 }} selected>{{ m2 }}分</option>
+                    {% endif %}
+                {% elif i == 3 %}
+                    {% if feed_time3 == "None" %}
+                        <option value=minutes selected>minutes</option>
+                    {% else %}
+                        <option value=minutes>minutes</option>
+                        <option value={{ m3 }} selected>{{ m3 }}分</option>
+                    {% endif %}
+                {% endif %}
+                {% for minute in minutes %}
+                    {% if minute < 10 %}
+                        <option value={{ minute }}>0{{ minute }}分</option>
+                    {% else %}
+                        <option value={{ minute }}>{{ minute }}分</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <!-- <input type="submit" name="record{{ i }}" value="設定" class="btn btn-success"> -->
+            <br>
+            <br>
+        {% endfor %}
+        <input type="submit" name="record" value="設定" class="btn btn-success">
+        <center>
+            <br>
+            {% if hints != "" %}
+                <b>{{ hints }}</b><br>
+            {% endif %}
+            <h5>
+                <b>{{ request.user.first_name }}</b> 目前已記錄的時間：
+                {% for u in user %}
+                    {% if u.feed_time1 != None %}
+                        {{ u.feed_time1 }}
+                    {% else %}
+                        餵食時間1尚未設定
+                    {% endif %}
+                        {% if u.feed_time2 != None %}
+                            , {{ u.feed_time2 }}
+                        {% else %}
+                            , 餵食時間2尚未設定
+                        {% endif %}
+                            {% if u.feed_time3 != None %}
+                                , {{ u.feed_time3 }}
+                            {% else %}
+                                , 餵食時間3尚未設定
+                            {% endif %}
+                {% endfor %}
+            </h5>
+            <br>
+            <input type="submit" name="reset" class="btn btn-danger" value="重新設定目前已紀錄的所有時間"> <input type="submit" name="send" class="btn btn-primary" value="送出已設定的所有時間">
+        <center>
+    </form>
+{% endblock %}
